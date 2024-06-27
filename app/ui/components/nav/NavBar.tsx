@@ -32,7 +32,7 @@ export default function NavBar() {
 				<section
 					className={flex({
 						margin: "auto 0",
-						display: { smDown: "none" },
+						display: { mdDown: "none" },
 					})}
 				>
 					<NavLinksList />
