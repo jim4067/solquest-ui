@@ -1,8 +1,7 @@
-import { divider, flex } from "@/styled-system/patterns";
+import { flex } from "@/styled-system/patterns";
 import { GitHubIcon, HeartIcon } from "@/theme/icons";
 import { css } from "@styled-system/css";
 import BottomNav from "./nav/BottomNav";
-import ThemeToggle from "./nav/ThemeToggle";
 
 export default function Footer() {
 	return (
