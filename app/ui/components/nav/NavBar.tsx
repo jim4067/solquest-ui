@@ -1,7 +1,8 @@
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
 // import { ConnectMenu } from "./ConnectMenu";
-import { NavLinkItem, NavLinksList } from "./NavLinks";
+import { LogoLg } from "../Logo";
+import { NavLinksList } from "./NavLinks";
 import ThemeToggle from "./ThemeToggle";
 
 export default function NavBar() {
@@ -9,7 +10,9 @@ export default function NavBar() {
 		<nav
 			className={css({
 				background: "primaryBackground",
-				padding: 7,
+				// paddingTop: 10,
+				// paddingX: 7,
+				padding: "2.9rem 1.75rem 8rem 1.75rem",
 			})}
 		>
 			<section
@@ -17,16 +20,19 @@ export default function NavBar() {
 					background: "primaryBackground",
 					flexDir: "row",
 					justifyContent: "space-between",
+					flexWrap: "wrap",
 				})}
 			>
 				<section
 					className={css({
-						fontSize: "x-large", // fixme: place holder
 						margin: "auto 0",
-						display: { smDown: "none" },
+						display: { mdDown: "none" },
+						_hover: {
+							cursor: "pointer",
+						},
 					})}
 				>
-					SOLANA LOGO
+					<LogoLg />
 				</section>
 
 				<section
@@ -41,7 +47,7 @@ export default function NavBar() {
 					className={css({
 						display: "flex",
 						margin: "auto 0",
-					gap: 2
+						gap: 2,
 					})}
 				>
 					<div

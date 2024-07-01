@@ -12,7 +12,7 @@ export function NavLinksList() {
 	return (
 		<section
 			className={flex({
-				gap: 2,
+				gap: 8,
 			})}
 		>
 			{pages.map((page) => (

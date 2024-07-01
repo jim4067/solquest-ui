@@ -1,6 +1,7 @@
 import { flex } from "@/styled-system/patterns";
 import { GitHubIcon, HeartIcon } from "@/theme/icons";
 import { css } from "@styled-system/css";
+import { LogoLg, LogoSm } from "./Logo";
 import BottomNav from "./nav/BottomNav";
 
 export default function Footer() {
@@ -33,15 +34,23 @@ export default function Footer() {
 					justifyContent: "center",
 					flexDir: "column",
 					alignItems: "center",
-					gap: 4,
+					gap: 10,
 				})}
 			>
 				<section
 					className={css({
-						fontWeight: "9xl",
+						display: { base: "block", mdDown: "none" },
 					})}
 				>
-					SOLANA STAKING LOGO{/* // fixme: add logo here  */}
+					<LogoLg />
+				</section>
+
+				<section
+					className={css({
+						display: { base: "none", mdDown: "block" },
+					})}
+				>
+					<LogoSm />
 				</section>
 
 				<section className={flex({ gap: 2, flexWrap: "wrap" })}>

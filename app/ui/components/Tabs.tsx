@@ -20,12 +20,14 @@ export function TabHeader({ label }: TabHeaderProps) {
 		<Tabs.Trigger
 			className={css({
 				color: "token(colors.accentLight)",
-                // background: ""
 				_selected: {
-                    background: "backgroundSecondary",
-					color: "token(colors.primaryText)",
-					textDecoration: "underline",
-					textUnderlineOffset: 8,
+					background: "backgroundSecondary",
+					borderRadius: "16px",
+					color: "textFixedLight",
+					padding: "8px 16px ",
+				},
+				_hover: {
+					cursor: "pointer",
 				},
 			})}
 			value={label}
@@ -42,12 +44,16 @@ export function TabHeaderList({ children }: TabHeaderListProps) {
 	return (
 		<section
 			className={flex({
+				fontSize: "headline18",
+				fontWeight: "headline18",
 				gap: 4,
+				justifyContent: "space-between",
 				overflowX: "scroll",
 				"&::-webkit-scrollbar": {
 					visibility: "hidden",
 				},
 				scrollbarWidth: "unset !important",
+				mb: 6,
 			})}
 		>
 			{children}
