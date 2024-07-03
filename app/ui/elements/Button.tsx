@@ -24,6 +24,7 @@ export const Button = ({ children, onClick }: ButtonProps) => (
 				justifyContent: "center",
 				alignItems: "center",
 				gap: 2,
+				padding: "0 20px",
 				width: "100%",
 				_hover: {
 					bgGradient: "blackGradient",
