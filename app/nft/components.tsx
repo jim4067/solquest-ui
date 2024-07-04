@@ -1,7 +1,18 @@
 "use client";
 
+import {
+	DigitalAsset,
+	fetchAllDigitalAssetByOwner,
+} from "@metaplex-foundation/mpl-token-metadata";
+
+import { publicKey as UmiPublicKey } from "@metaplex-foundation/umi";
+
 import { css } from "@/styled-system/css";
 import { flex } from "@/styled-system/patterns";
+import { useWallet } from "@solana/wallet-adapter-react";
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import { useUmi } from "../hooks/umi";
 import { Card } from "../ui/components/Card";
 import TabRoot, {
 	TabContent,
@@ -89,11 +100,7 @@ export function Rewards({ label, value }: RewardsProps) {
 }
 
 type CardListProps = {
-	nfts: Array<{
-		title: string;
-		image: string;
-		collection?: string;
-	}>;
+	nfts: Array<Partial<DigitalAsset & { image: string; name: string }>>;
 };
 function CardList({ nfts }: CardListProps) {
 	return (
@@ -104,19 +111,66 @@ function CardList({ nfts }: CardListProps) {
 				flexWrap: "wrap",
 			})}
 		>
-			{nfts.map((nft, index) => (
+			{nfts?.map((nft, index) => (
 				<Card
 					key={index}
-					title={nft.title}
-					collection={nft.collection ?? ""}
-					image={nft.image}
+					title={nft?.name ?? "unknown"}
+					collection={nft?.metadata?.name ?? ""}
+					// collection={nft.metadata.collection ?? ""}
+					image={nft?.image ?? ""}
 				/>
 			))}
 		</section>
 	);
 }
 
-export function NFTTabs({ nfts }: CardListProps) {
+let staked = new Array(6).fill({
+	title: "#1000",
+	collection: "this SOL NFT has a long name",
+	image: "https://s3-alpha-sig.figma.com/img/82e9/6d96/cedb304aa33425a560249d862e797ccf?Expires=1720396800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EBj-jpVMfxze01i8eZgieNJDhtvg9GY1WzGmEKlW8TQj5cFJAzdkuO2aIgWnRiLPZjDbHUGv8d~AIX9SFwFdL7NP6tUr41-PnXVyBZzZ-d5z4xapshTCdK8R0WAghwv2mTBLGXxWxaY-4hBSDX~SSvBKfAZJbSap8PHe0gJfXRu5tG9w4tGEYhW9fN6-uQ6SsgWhPG-XbAvTuE07sQ9~TUu66C4vp39n2orFYMigocb2gqG3iARObML1RA0KQR57g4RtAVCUQw6Z3vpbZHkmsWWlpmL4toqeAwZoQXgLH0B6AoGVP389b6YMoZvGbrYGTXHgoWGJAbjESHi8U6gX4A__",
+});
+
+export function NFTTabs() {
+	const { publicKey } = useWallet();
+	const { umiInstance } = useUmi();
+
+	const [userAssets, setUserAssets] = useState<any>();
+
+	const fetchAssets = useCallback(async () => {
+		if (!publicKey || !umiInstance) {
+			return;
+		}
+
+		const digitalAssets = await fetchAllDigitalAssetByOwner(
+			umiInstance,
+			UmiPublicKey(publicKey)
+		);
+
+		const res = await Promise.all(
+			digitalAssets.slice(0, 40).map(async (asset) => {
+				const offChainData = (await axios.get(asset.metadata.uri)).data;
+				return {
+					image: offChainData.image,
+					name: offChainData.name,
+					asset,
+					offChainData,
+				};
+			})
+		);
+
+		return res;
+	}, [publicKey, umiInstance]);
+
+	useEffect(() => {
+		if (!publicKey || !umiInstance) {
+			return;
+		}
+
+		fetchAssets()
+			.then((res) => setUserAssets(res))
+			.catch(console.error);
+	}, [fetchAssets, publicKey, umiInstance]);
+
 	return (
 		<section>
 			<TabRoot defaultTab="Staked">
@@ -133,10 +187,10 @@ export function NFTTabs({ nfts }: CardListProps) {
 					</section>
 				</TabHeaderList>
 				<TabContent value="Staked">
-					<CardList nfts={nfts} />
+					<CardList nfts={staked} />
 				</TabContent>
 				<TabContent value="Unstaked">
-					<CardList nfts={nfts} />
+					<CardList nfts={userAssets} />
 				</TabContent>
 			</TabRoot>
 		</section>
