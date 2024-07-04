@@ -1,7 +1,7 @@
 import { css } from "@styled-system/css";
 import { flex } from "@styled-system/patterns";
-// import { ConnectMenu } from "./ConnectMenu";
 import { LogoLg } from "../Logo";
+import ConnectWalletBtn from "./ConnectBtn";
 import { NavLinksList } from "./NavLinks";
 import ThemeToggle from "./ThemeToggle";
 
@@ -63,7 +63,7 @@ export default function NavBar() {
 							margin: "auto 0",
 						})}
 					>
-						connect wallet
+						<ConnectWalletBtn />
 					</div>
 					<div>
 						<ThemeToggle />

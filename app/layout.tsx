@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "./ui/components/Footer";
 import NavBar from "./ui/components/nav/NavBar";
+import { Wallet } from "./ui/components/Wallet";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,21 +35,23 @@ export default function RootLayout({
 					enableSystem
 					themes={["dark", "light"]}
 				>
-					<header>
-						<NavBar />
-					</header>
-					<main
-						style={{
-							display: "flex",
-							flex: 1,
-							flexDirection: "column",
-						}}
-					>
-						{children}
-					</main>
-					<footer>
-						<Footer />
-					</footer>
+					<Wallet>
+						<header>
+							<NavBar />
+						</header>
+						<main
+							style={{
+								display: "flex",
+								flex: 1,
+								flexDirection: "column",
+							}}
+						>
+							{children}
+						</main>
+						<footer>
+							<Footer />
+						</footer>
+					</Wallet>
 				</ThemeProvider>
 			</body>
 		</html>

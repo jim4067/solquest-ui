@@ -3,6 +3,7 @@ import { css } from "@/styled-system/css";
 import { flex } from "@/styled-system/patterns";
 import { CheckMark, StakeIcon } from "@/theme/icons";
 import Image from "next/image";
+//@ts-ignore
 import sol from "../../../public/solana.png";
 
 type StakeOverviewProps = {

@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 
 export function NavLinksList() {
 	const pathname = usePathname();
-	console.log(pathname);
 
 	return (
 		<section

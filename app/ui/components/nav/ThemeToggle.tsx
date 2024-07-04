@@ -9,8 +9,6 @@ const ThemeToggle = () => {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 
-	console.log("them in toggle", theme);
-
 	useEffect(() => {
 		setMounted(true);
 	}, []);

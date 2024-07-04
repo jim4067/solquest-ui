@@ -1,5 +1,5 @@
- import { flex } from "@/styled-system/patterns";
- import { Stake } from "./components/Stake";
+import { flex } from "@/styled-system/patterns";
+import { Stake } from "./components/Stake";
 
 export default function Token() {
 	return (
@@ -8,9 +8,8 @@ export default function Token() {
 				backgroundColor: "primaryBackground",
 				flex: 1,
 				justifyContent: "center",
- 			})}
+			})}
 		>
-
 			<Stake />
 		</section>
 	);
