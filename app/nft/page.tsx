@@ -1,11 +1,6 @@
 import { css } from "@/styled-system/css";
-import { container, flex } from "@/styled-system/patterns";
-import { Card } from "../ui/components/Card";
-import TabRoot, {
-	TabContent,
-	TabHeader,
-	TabHeaderList,
-} from "../ui/components/Tabs";
+import { container } from "@/styled-system/patterns";
+
 import { Header, NFTTabs } from "./components";
 
 export default function NFT() {

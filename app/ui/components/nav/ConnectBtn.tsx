@@ -8,12 +8,17 @@ import { WalletDarkMode, WalletLightMode } from "@/theme/icons";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 
+import { clipAddress } from "@/app/lib/utils";
+import { css } from "@/styled-system/css";
 import { Button } from "../../elements/Button";
 import Modal, { type ModalProps } from "../Modal";
 
 export default function ConnectWalletBtn() {
+	const { publicKey } = useWallet();
 	const { theme } = useTheme();
 	const [listWalletModal, setListWalletModal] = useState(false);
+
+	let isConnected = publicKey ?? false;
 
 	const closeModal = () => {
 		setListWalletModal(false);
@@ -29,11 +34,17 @@ export default function ConnectWalletBtn() {
 					)}
 				</span>
 				<span>
-					Connect Wallet
-					<WalletListModal
-						isOpen={listWalletModal}
-						onClose={() => closeModal()}
-					/>
+					{isConnected ? (
+						<DisconnectWallet />
+					) : (
+						<>
+							Connect Wallet
+							<WalletListModal
+								isOpen={listWalletModal}
+								onClose={() => closeModal()}
+							/>
+						</>
+					)}
 				</span>
 			</Button>
 		</section>
@@ -47,13 +58,16 @@ function WalletListModal({ isOpen, onClose }: WalletListModalProps) {
 			<Modal isOpen={isOpen} onClose={onClose}>
 				{/* ! hack to set modal width below that's why empty element */}
 				<section style={{ width: "30vw" }}></section>{" "}
-				<section style={{ maxWidth: "100vw" }}>
-					{/* <Title
-						fontSize="large"
-						label="Select Wallet"
-						style={{ width: "max-content" }}
-					/> */}
-					Select wallet
+				<section
+					className={css({
+						color: "textFixedLight",
+						fontSize: "headline24",
+						fontWeight: "headline24",
+						maxWidth: "100vw",
+						padding: "20px 0",
+					})}
+				>
+					Select Wallet
 				</section>
 				<section
 					style={{
@@ -68,7 +82,7 @@ function WalletListModal({ isOpen, onClose }: WalletListModalProps) {
 }
 
 function WalletList() {
-	const { wallets, select } = useWallet();
+	const { wallets, select, connect } = useWallet();
 
 	const installedWallets = wallets.filter(
 		(wallet) => wallet.readyState === "Installed"
@@ -78,7 +92,11 @@ function WalletList() {
 		<section
 			className={vstack({
 				alignItems: "flex-start",
+				border: "2px solid token(colors.borderPrimary)",
+				borderRadius: 20,
+				color: "textFixedLight",
 				gap: 2,
+				padding: 6,
 			})}
 		>
 			{installedWallets.length === 0 && (
@@ -134,5 +152,17 @@ function WalletItem({ name, iconSrc, connect }: WalletItemProps) {
 			</section>
 			<section style={{ margin: "auto 0" }}>{name}</section>
 		</section>
+	);
+}
+
+function DisconnectWallet() {
+	const { publicKey, disconnect } = useWallet();
+
+	return (
+		<span>
+			<button onClick={disconnect}>
+				{clipAddress(publicKey?.toBase58() ?? "unknown")}
+			</button>
+		</span>
 	);
 }
