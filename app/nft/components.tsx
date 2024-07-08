@@ -5,7 +5,7 @@ import {
 	fetchAllDigitalAssetByOwner,
 } from "@metaplex-foundation/mpl-token-metadata";
 
-import { publicKey as UmiPublicKey } from "@metaplex-foundation/umi";
+import { isSome, publicKey as UmiPublicKey } from "@metaplex-foundation/umi";
 
 import { css } from "@/styled-system/css";
 import { flex } from "@/styled-system/patterns";
@@ -146,17 +146,23 @@ export function NFTTabs() {
 			UmiPublicKey(publicKey)
 		);
 
+		// filter out collections
 		const res = await Promise.all(
-			digitalAssets.slice(0, 40).map(async (asset) => {
-				const offChainData = (await axios.get(asset.metadata.uri)).data;
-				return {
-					image: offChainData.image,
-					name: offChainData.name,
-					asset,
-					offChainData,
-				};
-			})
+			digitalAssets
+				.filter((asset) => isSome(asset.metadata.collection))
+				.map(async (asset) => {
+					const offChainData = (await axios.get(asset.metadata.uri))
+						.data;
+					return {
+						image: offChainData.image,
+						name: offChainData.name,
+						asset,
+						offChainData,
+					};
+				})
 		);
+
+		console.log(res);
 
 		return res;
 	}, [publicKey, umiInstance]);
