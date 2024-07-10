@@ -15,7 +15,7 @@ export const useUmi = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		const fetchData = async () => {
+		const instantiateUmi = async () => {
 			setIsLoading(true);
 			setError(null);
 
@@ -36,7 +36,7 @@ export const useUmi = () => {
 			}
 		};
 
-		fetchData();
+		instantiateUmi();
 	}, [connection, wallet]);
 
 	return { umiInstance, error, isLoading };

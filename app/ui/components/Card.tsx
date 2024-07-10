@@ -2,22 +2,39 @@ import { flex } from "@/styled-system/patterns";
 import { GitHubIcon, HeartIcon } from "@/theme/icons";
 import { css } from "@styled-system/css";
 import Image from "next/image";
+import { CSSProperties } from "react";
 
 type CardPops = {
 	image: string;
 	title: string;
 	collection: string;
+	onClick: () => void;
+	isSelected: boolean;
+	style?: CSSProperties;
 };
 
-export const Card = ({ image, title, collection }: CardPops) => {
+export const Card = ({
+	image,
+	title,
+	collection,
+	onClick,
+	isSelected,
+	style,
+}: CardPops) => {
 	return (
-		<section className={flex({ flexDir: "column", gap: 4 })}>
+		<section className={flex({ flexDir: "column", gap: 4 })} style={style}>
 			<section
 				className={flex({
 					maxW: "220px",
 					height: "220px",
 					justifyContent: "center",
+					opacity: isSelected ? 1 : 0.8,
+					_hover: {
+						cursor: "pointer",
+						opacity: 1,
+					},
 				})}
+				onClick={onClick}
 			>
 				<Image
 					style={{
@@ -57,7 +74,7 @@ export const Card = ({ image, title, collection }: CardPops) => {
 						textWrap: "pretty",
 					})}
 				>
-					{title}
+					{isSelected ? "will be staked" : title}
 				</span>
 			</section>
 		</section>
